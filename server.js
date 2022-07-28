@@ -115,6 +115,15 @@ app.get('/leaderboard', (req, res) => {
     });
 })
 
+// Get points for specific user
+app.get('/pointCt', (req, res) => {
+    const selectUser = req.body.selectUser;
+    const sqlSelect = "SELECT points FROM user WHERE username = \'" + selectUser + "\'"
+    connection.query(sqlSelect, (err, result) => {
+        res.send(result);
+    })
+})
+
 // Check if user is logged in
 app.get('/auth', (req, res) => {
     if (req.session.user) {
@@ -193,8 +202,8 @@ app.post('/logout', (req, res) => {
 
 // Add points for a user
 app.post('/addpoints', (req, res) => {
-    let selectUser = req.body.selectUser;
-    let numPoints = req.body.numPoints;
+    const selectUser = req.body.selectUser;
+    const numPoints = req.body.numPoints;
     const sqlSelect = "UPDATE user SET points = points + " + numPoints + " WHERE username = \'" + selectUser + "\'";
 
     connection.query(sqlSelect, (err, result) => {
