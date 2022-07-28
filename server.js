@@ -118,7 +118,7 @@ app.get('/leaderboard', (req, res) => {
 // Code is asking for default /pointCt response
 app.get('/pointCt', (req, res) => {
     connection.query("SELECT points FROM user", (err, result) => {
-        res.send(results);
+        res.send(result);
     });
 })
 
