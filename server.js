@@ -12,7 +12,7 @@ const app = express(); // create new instance of express
 const port = process.env.PORT || 4000; // start the server by telling it which port to use, using port 4000 on local environment; however, Heroku will assign port for app after deployment
 
 app.use(cors({
-    origin: ["http://localhost:3000", "https://wizardly-swartz-83a6f0.netlify.app"],
+    origin: ["http://localhost:3000", "https://https://lively-melomakarona-c39f10.netlify.app"],
     methods: ["GET", "POST"],
     credentials: true
 }));
@@ -49,7 +49,7 @@ app.get('/', (req, res, next) => {
     res.status(200).json({
         status: 'success',
         data: {
-            name: 'edufy-by-edufiers',
+            name: 'hci-final-server',
             version: '0.1.0'
         }
     });
@@ -58,10 +58,10 @@ app.get('/', (req, res, next) => {
 // Database configuration and disconnect handling code taken from CloudyMarble at Stack Overflow
 // https://stackoverflow.com/questions/20210522/nodejs-mysql-error-connection-lost-the-server-closed-the-connection
 var db_config = {
-    user: "b0df76319fd66a",
-    host: "us-cdbr-east-05.cleardb.net",
-    password: "78c0a726",
-    database: "heroku_1bc510ffc4c3a1d",
+    user: "b58d8ae6788a33",
+    host: "us-cdbr-east-06.cleardb.net",
+    password: "f89f0369",
+    database: "heroku_6d67496a20a7393",
 };
 
 var connection;
@@ -88,24 +88,6 @@ function handleDisconnect() {
 }
 
 handleDisconnect();
-
-// Get all quiz questions
-app.get('/questions', (req, res) => {
-    const sqlSelect = "SELECT * FROM quiz_example";
-    connection.query(sqlSelect, (err, result) => {
-        res.send(result);
-    });
-});
-
-// Get one quiz question
-app.get('/questions/:id', (req, res) => {
-    const id = req.params.id;
-    const sqlSelect = "SELECT * FROM quiz_example WHERE questionNumber = " + id;
-
-    connection.query(sqlSelect, (err, result) => {
-        res.send(result);
-    });
-})
 
 // Get all quiz questions from solar system quiz
 app.get('/solarsystem', (req, res) => {
@@ -137,24 +119,6 @@ app.get('/grammar', (req, res) => {
 app.get('/grammar/:id', (req, res) => {
     const id = req.params.id;
     const sqlSelect = "SELECT * FROM grammar WHERE questionNumber = " + id;
-
-    connection.query(sqlSelect, (err, result) => {
-        res.send(result);
-    });
-})
-
-// Get all quiz questions from algebra quiz
-app.get('/algebra', (req, res) => {
-    const sqlSelect = "SELECT * FROM algebra_answers";
-    connection.query(sqlSelect, (err, result) => {
-        res.send(result);
-    });
-});
-
-// Get one quiz question from algebra quiz
-app.get('/algebra/:id', (req, res) => {
-    const id = req.params.id;
-    const sqlSelect = "SELECT * FROM algebra_answers WHERE questionNumber = " + id;
 
     connection.query(sqlSelect, (err, result) => {
         res.send(result);
