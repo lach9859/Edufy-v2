@@ -193,12 +193,17 @@ app.post('/logout', (req, res) => {
 
 // Add points for a user
 app.post('/addpoints', (req, res) => {
-    let selectUser = req.body.selectUser;
-    let numPoints = req.body.numPoints;
+    console.log(req.body)
+    const selectUser = req.body.selectUser;
+    const numPoints = req.body.numPoints;
     const sqlSelect = "UPDATE user SET points = points + " + numPoints + " WHERE username = " + selectUser;
 
     connection.query(sqlSelect, (err, result) => {
-        res.send(result);
+        if (err) {
+            console.log(err);
+        } else {
+            res.send("Points added");
+        }
     });
 })
 
