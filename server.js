@@ -107,24 +107,6 @@ app.get('/solarsystem/:id', (req, res) => {
     });
 })
 
-// Get all quiz questions from grammar quiz
-app.get('/grammar', (req, res) => {
-    const sqlSelect = "SELECT * FROM grammar";
-    connection.query(sqlSelect, (err, result) => {
-        res.send(result);
-    });
-});
-
-// Get one quiz question from grammar quiz
-app.get('/grammar/:id', (req, res) => {
-    const id = req.params.id;
-    const sqlSelect = "SELECT * FROM grammar WHERE questionNumber = " + id;
-
-    connection.query(sqlSelect, (err, result) => {
-        res.send(result);
-    });
-})
-
 // Check if user is logged in
 app.get('/auth', (req, res) => {
     if (req.session.user) {
@@ -143,7 +125,7 @@ app.post('/create', (req, res) => {
     const password = req.body.password;
 
     connection.query(
-        "INSERT INTO login_example (fName, lName, username, password) VALUES (?,?,?,?)",
+        "INSERT INTO user (fName, lName, username, password) VALUES (?,?,?,?)",
         [fName, lName, username, password],
         (err, result) => {
             if (err) {
@@ -163,7 +145,7 @@ app.post('/auth', (req, res) => { // POST method captures input fields when user
     // Ensure the input fields exists and are not empty
     if (username && password) {
         // Execute SQL query that'll select the account from the database based on the specified username and password
-        connection.query('SELECT * FROM login_example WHERE username = ? AND password = ?', [username, password],
+        connection.query('SELECT * FROM user WHERE username = ? AND password = ?', [username, password],
             (err, result) => {
                 // If there is an issue with the query, output the error
                 if (err) {
