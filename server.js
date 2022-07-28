@@ -116,13 +116,13 @@ app.get('/leaderboard', (req, res) => {
 })
 
 // Get points for specific user
-app.get('/pointCt', (req, res) => {
-    const selectUser = req.body.selectUser;
+app.get('/pointCt/:selectUser', (req, res) => {
+    const selectUser = req.params.selectUser;
     const sqlSelect = "SELECT points FROM user WHERE username = \'" + selectUser + "\'"
-    res.send(sqlSelect);
-    // connection.query(sqlSelect, (err, result) => {
-    //     res.send(result);
-    // })
+
+    connection.query(sqlSelect, (err, result) => {
+        res.send(result);
+    });
 })
 
 // Check if user is logged in
