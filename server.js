@@ -107,6 +107,14 @@ app.get('/solarsystem/:id', (req, res) => {
     });
 })
 
+// Get top ten points leaderboard
+app.get('/leaderboard', (req, res) => {
+    const sqlSelect = "SELECT fname, lname, points FROM user ORDER BY points DESC LIMIT 10"
+    connection.query(sqlSelect, (err, result) => {
+        res.send(result);
+    });
+})
+
 // Check if user is logged in
 app.get('/auth', (req, res) => {
     if (req.session.user) {
@@ -181,6 +189,17 @@ app.post('/logout', (req, res) => {
     } else {
         res.end()
     }
+})
+
+// Add points for a user
+app.post('/addpoints/:selectUser/:numPoints', (req, res) => {
+    const selectUser = req.params.selectUser;
+    const numPoints = req.params.numPoints;
+    const sqlSelect = "UPDATE user SET points = points + " + numPoints + " WHERE username = " + selectUser;
+
+    connection.query(sqlSelect, (err, result) => {
+        res.send(result);
+    });
 })
 
 app.listen(port, () => {
