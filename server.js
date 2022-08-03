@@ -150,7 +150,9 @@ app.post('/create', (req, res) => {
     let password = req.body.password;
 
     if (fName && lName && username && password) {
-        if (connection.query("SELECT * WHERE username = ?", [username])) {
+        if (connection.query("SELECT * FROM user WHERE username = '?'", [username])) {
+            res.send({ message: 'Username already exists! Please enter new username' });
+        } else {
             connection.query(
                 "INSERT INTO user (fName, lName, username, password) VALUES (?,?,?,?)",
                 [fName, lName, username, password],
@@ -162,8 +164,6 @@ app.post('/create', (req, res) => {
                     }
                 }
             );
-        } else {
-            res.send({ message: 'Username already exists! Please enter new username' });
         }
         res.end();
     } else {
