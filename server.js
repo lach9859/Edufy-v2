@@ -149,8 +149,8 @@ app.post('/create', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
 
-    if (fName.length > 30 || lName.length > 30 || username > 30 || password > 30) {
-        res.send({ message: 'Please keep all fields under 30 characters!' });
+    if (fName.length > 20 || lName.length > 20 || username > 20 || password > 20) {
+        res.send({ message: 'Please keep all fields at or under 20 characters!' });
     } else if (fName && lName && username && password) {
         // Check for existing username
         connection.query("SELECT * FROM user WHERE username = ?", [username], (err, result) => {
