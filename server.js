@@ -159,6 +159,7 @@ app.post('/create', (req, res) => {
             // If the username exists
             if (result.length > 0) {
                 res.send({ message: 'Username already exists! Please enter new username' });
+                res.end();
             } else {
                 // If username does not exist, sign the user up
                 connection.query(
@@ -173,7 +174,6 @@ app.post('/create', (req, res) => {
                     }
                 );
             }
-            res.end();
         })
     } else {
         res.send({ message: 'Please fill out all fields!' });
