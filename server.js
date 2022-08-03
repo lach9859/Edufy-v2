@@ -109,7 +109,7 @@ app.get('/solarsystem/:id', (req, res) => {
 
 // Get all quiz questions from uf culture quiz
 app.get('/ufculture', (req, res) => {
-    const sqlSelect = "SELECT * FROM uf-culture";
+    const sqlSelect = "SELECT * FROM uf_culture";
     connection.query(sqlSelect, (err, result) => {
         res.send(result);
     });
@@ -118,7 +118,7 @@ app.get('/ufculture', (req, res) => {
 // Get one quiz question from uf culture quiz
 app.get('/ufculture/:id', (req, res) => {
     const id = req.params.id;
-    const sqlSelect = "SELECT * FROM uf-culture WHERE questionNumber = " + id;
+    const sqlSelect = "SELECT * FROM uf_culture WHERE questionNumber = " + id;
 
     connection.query(sqlSelect, (err, result) => {
         res.send(result);
