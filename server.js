@@ -151,7 +151,7 @@ app.post('/create', (req, res) => {
 
     if (fName && lName && username && password) {
         // Check for existing username
-        connection.query("SELECT * FROM user WHERE username = '?'", [username], (err, result) => {
+        connection.query("SELECT * FROM user WHERE username = ?", [username], (err, result) => {
             // If there is an issue with the query, output the error
             if (err) {
                 res.send({ err: err })
@@ -164,9 +164,9 @@ app.post('/create', (req, res) => {
                 connection.query(
                     "INSERT INTO user (fName, lName, username, password) VALUES (?,?,?,?)",
                     [fName, lName, username, password],
-                    (err, result) => {
-                        if (err) {
-                            console.log(err);
+                    (err2, result2) => {
+                        if (err2) {
+                            console.log(err2);
                         } else {
                             res.send("Credentials Recorded");
                         }
