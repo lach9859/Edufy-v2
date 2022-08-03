@@ -150,22 +150,31 @@ app.post('/create', (req, res) => {
     let password = req.body.password;
 
     if (fName && lName && username && password) {
-        if (connection.query("SELECT * FROM user WHERE username = '?'", [username])) {
-            res.send({ message: 'Username already exists! Please enter new username' });
-        } else {
-            connection.query(
-                "INSERT INTO user (fName, lName, username, password) VALUES (?,?,?,?)",
-                [fName, lName, username, password],
-                (err, result) => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        res.send("Credentials Recorded");
+        // Check for existing username
+        connection.query("SELECT * FROM user WHERE username = '?'", [username], (err, result) => {
+            // If there is an issue with the query, output the error
+            if (err) {
+                res.send({ err: err })
+            };
+            // If the username exists
+            if (result.length > 0) {
+                res.send({ message: 'Username already exists! Please enter new username' });
+            } else {
+                // If username does not exist, sign the user up
+                connection.query(
+                    "INSERT INTO user (fName, lName, username, password) VALUES (?,?,?,?)",
+                    [fName, lName, username, password],
+                    (err, result) => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            res.send("Credentials Recorded");
+                        }
                     }
-                }
-            );
-        }
-        res.end();
+                );
+            }
+            res.end();
+        })
     } else {
         res.send({ message: 'Please fill out all fields!' });
         res.end();
