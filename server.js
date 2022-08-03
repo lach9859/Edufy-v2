@@ -166,7 +166,7 @@ app.post('/create', (req, res) => {
                     [fName, lName, username, password],
                     (err2, result2) => {
                         if (err2) {
-                            console.log(err2);
+                            res.setDefaultEncoding({ err: err2 })
                         } else {
                             res.send("Credentials Recorded");
                         }
