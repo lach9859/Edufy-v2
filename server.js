@@ -144,22 +144,32 @@ app.get('/auth', (req, res) => {
 // Create an account
 app.post('/create', (req, res) => {
     console.log(req.body)
-    const fName = req.body.fName;
-    const lName = req.body.lName;
-    const username = req.body.username;
-    const password = req.body.password;
+    let fName = req.body.fName;
+    let lName = req.body.lName;
+    let username = req.body.username;
+    let password = req.body.password;
 
-    connection.query(
-        "INSERT INTO user (fName, lName, username, password) VALUES (?,?,?,?)",
-        [fName, lName, username, password],
-        (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send("Credentials Recorded");
-            }
+    if (fName && lName && username && password) {
+        if (connection.query("SELECT * WHERE username = ?", [username])) {
+            connection.query(
+                "INSERT INTO user (fName, lName, username, password) VALUES (?,?,?,?)",
+                [fName, lName, username, password],
+                (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        res.send("Credentials Recorded");
+                    }
+                }
+            );
+        } else {
+            res.send({ message: 'Username already exists! Please enter new username' });
         }
-    );
+        res.end();
+    } else {
+        res.send({ message: 'Please fill out all fields!' });
+        res.end();
+    }
 })
 
 // Log in to an existing account
